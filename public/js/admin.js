@@ -306,13 +306,13 @@ function renderExposureUI(data) {
     }
 
     row.innerHTML = `
-      <td style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 900; color: #0F172A;">${n.number}</td>
-      <td style="font-family: var(--font-mono); font-weight: 700; color: #0F172A;">₹${n.jodiBet.toLocaleString()}</td>
-      <td style="font-family: var(--font-mono); font-weight: 800; color: #B45309;">₹${n.totalPayout.toLocaleString()}</td>
-      <td style="font-family: var(--font-mono); font-weight: 800; color: ${isLoss ? '#DC2626' : '#15803D'};">
+      <td data-label="Number (Jodi)" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 900; color: #0F172A;">${n.number}</td>
+      <td data-label="Jodi Volume" style="font-family: var(--font-mono); font-weight: 700; color: #0F172A;">₹${n.jodiBet.toLocaleString()}</td>
+      <td data-label="Total Payout" style="font-family: var(--font-mono); font-weight: 800; color: #B45309;">₹${n.totalPayout.toLocaleString()}</td>
+      <td data-label="Net Profit/Loss" style="font-family: var(--font-mono); font-weight: 800; color: ${isLoss ? '#DC2626' : '#15803D'};">
         ${isLoss ? `-₹${Math.abs(n.netProfitOrLoss).toLocaleString()}` : `+₹${n.netProfitOrLoss.toLocaleString()}`}
       </td>
-      <td>${riskBadge}</td>
+      <td data-label="Risk Level">${riskBadge}</td>
     `;
     tbody.appendChild(row);
   });
@@ -338,14 +338,14 @@ function renderAdminUsersTable(users) {
   users.forEach(u => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td style="font-weight: 800; color: #0F172A;">${u.username}</td>
-      <td style="font-family: var(--font-mono); color: #475569; font-weight: 600;">${u.phone || '-'}</td>
-      <td><span class="status-badge ${u.role === 'admin' ? 'badge-declared' : 'badge-open'}">${u.role.toUpperCase()}</span></td>
-      <td style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 800; color: #B45309;">₹${u.balance.toLocaleString()}</td>
-      <td style="font-family: var(--font-mono); font-weight: 700; color: #0F172A;">${u.totalBetsPlaced}</td>
-      <td style="font-family: var(--font-mono); font-weight: 700; color: #0F172A;">₹${u.totalBetAmount.toLocaleString()}</td>
-      <td style="font-family: var(--font-mono); color: #15803D; font-weight: 800;">₹${u.totalWonAmount.toLocaleString()}</td>
-      <td>
+      <td data-label="Username" style="font-weight: 800; color: #0F172A;">${u.username}</td>
+      <td data-label="Phone" style="font-family: var(--font-mono); color: #475569; font-weight: 600;">${u.phone || '-'}</td>
+      <td data-label="Role"><span class="status-badge ${u.role === 'admin' ? 'badge-declared' : 'badge-open'}">${u.role.toUpperCase()}</span></td>
+      <td data-label="Balance" style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 800; color: #B45309;">₹${u.balance.toLocaleString()}</td>
+      <td data-label="Total Bets" style="font-family: var(--font-mono); font-weight: 700; color: #0F172A;">${u.totalBetsPlaced}</td>
+      <td data-label="Total Amount" style="font-family: var(--font-mono); font-weight: 700; color: #0F172A;">₹${u.totalBetAmount.toLocaleString()}</td>
+      <td data-label="Total Won" style="font-family: var(--font-mono); color: #15803D; font-weight: 800;">₹${u.totalWonAmount.toLocaleString()}</td>
+      <td data-label="Actions">
         <button class="btn btn-primary btn-sm" onclick="openAdjustBalanceModal('${u.id}', '${u.username}', ${u.balance})"
           style="background: #1E8276; border-color: #115E59; font-weight: 800; padding: 0.35rem 0.75rem;">
           💰 Credit / Debit
@@ -517,17 +517,17 @@ function renderAdminAllBetsTable(bets) {
     const timeStr = new Date(b.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     row.innerHTML = `
-      <td style="font-family: var(--font-mono); color: #0F172A; font-weight: 700;">${b.date}</td>
-      <td style="font-weight: 800; color: #0F172A;">${b.username}</td>
-      <td style="font-weight: 700; color: #334155;">${b.marketName}</td>
-      <td style="color: #B45309; font-weight: 700;">${b.betType.toUpperCase()}</td>
-      <td style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 900; color: #0F172A;">${b.number}</td>
-      <td style="font-family: var(--font-mono); font-weight: 700; color: #0F172A;">₹${b.amount}</td>
-      <td>${statusBadge}</td>
-      <td style="font-family: var(--font-mono); color: ${b.status === 'won' ? '#15803D' : '#64748B'}; font-weight: 800;">
+      <td data-label="Date" style="font-family: var(--font-mono); color: #0F172A; font-weight: 700;">${b.date}</td>
+      <td data-label="Player" style="font-weight: 800; color: #0F172A;">${b.username}</td>
+      <td data-label="Market" style="font-weight: 700; color: #334155;">${b.marketName}</td>
+      <td data-label="Bet Type" style="color: #B45309; font-weight: 700;">${b.betType.toUpperCase()}</td>
+      <td data-label="Number" style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 900; color: #0F172A;">${b.number}</td>
+      <td data-label="Points" style="font-family: var(--font-mono); font-weight: 700; color: #0F172A;">₹${b.amount}</td>
+      <td data-label="Status">${statusBadge}</td>
+      <td data-label="Won Payout" style="font-family: var(--font-mono); color: ${b.status === 'won' ? '#15803D' : '#64748B'}; font-weight: 800;">
         ${b.status === 'won' ? `+₹${b.winAmount.toLocaleString()}` : '₹0'}
       </td>
-      <td style="font-size: 0.8rem; color: #64748B; font-weight: 600;">${timeStr}</td>
+      <td data-label="Placed At" style="font-size: 0.8rem; color: #64748B; font-weight: 600;">${timeStr}</td>
     `;
     tbody.appendChild(row);
   });
@@ -633,21 +633,21 @@ function renderAdminWithdrawalsTable(withdrawals) {
     }
 
     row.innerHTML = `
-      <td>
+      <td data-label="Request ID">
         <div style="font-family: var(--font-mono); font-weight: 800; color: #0F172A; font-size: 0.85rem;">${w.id}</div>
         <div style="font-size: 0.75rem; color: #64748B;">${timeStr}</div>
       </td>
-      <td>
+      <td data-label="Player">
         <strong style="color: #0F172A;">${w.username}</strong>
         ${w.phone ? `<div style="font-size: 0.75rem; color: #475569;">${w.phone}</div>` : ''}
       </td>
-      <td style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 900; color: #B45309;">
+      <td data-label="Amount" style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 900; color: #B45309;">
         ₹${w.amount.toLocaleString()}
       </td>
-      <td><span class="status-badge" style="text-transform: uppercase; background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1;">${w.method}</span></td>
-      <td>${detailHtml}</td>
-      <td>${statusBadge}</td>
-      <td>${actionButtons}</td>
+      <td data-label="Route"><span class="status-badge" style="text-transform: uppercase; background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1;">${w.method}</span></td>
+      <td data-label="Account / UPI">${detailHtml}</td>
+      <td data-label="Status">${statusBadge}</td>
+      <td data-label="Actions">${actionButtons}</td>
     `;
     tbody.appendChild(row);
   });

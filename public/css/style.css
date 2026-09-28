@@ -2377,6 +2377,104 @@ body {
   .satta-board-draw {
     font-size: 1.85rem;
   }
+
+  /* ==========================================================================
+     UNIVERSAL RESPONSIVE CARD SYSTEM FOR ALL DATA TABLES ON MOBILE
+     (Converts complex multi-column tables into beautiful 100% width mobile cards)
+     ========================================================================== */
+  .responsive-table-cards thead {
+    display: none !important;
+  }
+
+  .responsive-table-cards,
+  .responsive-table-cards tbody,
+  .responsive-table-cards tr {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .responsive-table-cards tr {
+    background: #FFFFFF !important;
+    border: 1.5px solid #CBD5E1 !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.85rem 1rem !important;
+    margin-bottom: 0.85rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .responsive-table-cards tr:nth-child(even) td {
+    background: transparent !important;
+  }
+
+  .responsive-table-cards td {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0.4rem 0 !important;
+    border: none !important;
+    border-bottom: 1px dashed #E2E8F0 !important;
+    font-size: 0.88rem !important;
+    text-align: right !important;
+    background: transparent !important;
+  }
+
+  .responsive-table-cards td:last-child {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+  }
+
+  .responsive-table-cards td:first-child {
+    padding-top: 0 !important;
+  }
+
+  .responsive-table-cards td::before {
+    content: attr(data-label);
+    font-weight: 800;
+    color: #64748B;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 0.75rem;
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  /* Full Screen Fit for Game Screen, Hero Card & Modals */
+  .game-screen {
+    padding: 0.85rem 0.65rem !important;
+    border-radius: var(--radius-lg) !important;
+  }
+
+  .hero-start-card {
+    padding: 0.95rem 0.75rem !important;
+  }
+
+  .live-spotlight-box {
+    padding: 0.95rem 0.65rem !important;
+  }
+
+  .admin-card {
+    padding: 0.95rem 0.75rem !important;
+  }
+
+  .modal-card {
+    width: 94% !important;
+    max-width: 94% !important;
+    padding: 1.35rem 1rem !important;
+  }
+
+  .custom-table-wrapper {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .numbers-grid-100 {
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 0.35rem !important;
+  }
 }
 
 @media (max-width: 480px) {

@@ -399,12 +399,12 @@ function renderUserWithdrawalsTable(withdrawals) {
     }
 
     row.innerHTML = `
-      <td style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary);">${w.id}</td>
-      <td style="font-size: 0.8rem; color: var(--text-secondary);">${dateStr}</td>
-      <td style="font-family: var(--font-mono); font-weight: 800; color: #fff; font-size: 1rem;">₹${w.amount.toLocaleString()}</td>
-      <td><span class="status-badge" style="text-transform: uppercase;">${w.method}</span></td>
-      <td style="font-size: 0.85rem;">${detail}</td>
-      <td>${statusBadge}</td>
+      <td data-label="Request ID" style="font-family: var(--font-mono); font-size: 0.82rem; color: #0F172A; font-weight: 700;">${w.id}</td>
+      <td data-label="Requested At" style="font-size: 0.8rem; color: #475569;">${dateStr}</td>
+      <td data-label="Amount" style="font-family: var(--font-mono); font-weight: 800; color: #B45309; font-size: 1.05rem;">₹${w.amount.toLocaleString()}</td>
+      <td data-label="Method"><span class="status-badge" style="text-transform: uppercase; background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1;">${w.method}</span></td>
+      <td data-label="Account Details" style="font-size: 0.85rem; color: #0F172A;">${detail}</td>
+      <td data-label="Status">${statusBadge}</td>
     `;
     tbody.appendChild(row);
   });
@@ -2220,17 +2220,17 @@ function renderMyBetsTable(bets) {
     const placedTime = new Date(b.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     row.innerHTML = `
-      <td style="font-family: var(--font-mono);">${b.date}</td>
-      <td style="font-weight: 700; color: #fff;">${b.marketName}</td>
-      <td style="color: var(--gold-text);">${typeStr}</td>
-      <td style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 800; color: #fff;">${b.number}</td>
-      <td style="font-family: var(--font-mono); font-weight: 700;">₹${b.amount}</td>
-      <td style="font-family: var(--font-mono); color: var(--text-secondary);">${b.rate}x</td>
-      <td>${statusBadge}</td>
-      <td style="font-family: var(--font-mono); font-weight: 800; color: ${b.status === 'won' ? 'var(--neon-green)' : 'var(--text-muted)'};">
+      <td data-label="Date" style="font-family: var(--font-mono); color: #0F172A; font-weight: 700;">${b.date}</td>
+      <td data-label="Market" style="font-weight: 800; color: #0F172A;">${b.marketName}</td>
+      <td data-label="Bet Type" style="color: #B45309; font-weight: 700;">${typeStr}</td>
+      <td data-label="Number" style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 900; color: #0F172A;">${b.number}</td>
+      <td data-label="Points Placed" style="font-family: var(--font-mono); font-weight: 800; color: #0F172A;">₹${b.amount}</td>
+      <td data-label="Rate" style="font-family: var(--font-mono); color: #475569; font-weight: 700;">${b.rate}x</td>
+      <td data-label="Status">${statusBadge}</td>
+      <td data-label="Won Payout" style="font-family: var(--font-mono); font-weight: 800; color: ${b.status === 'won' ? '#15803D' : '#64748B'};">
         ${b.status === 'won' ? `+₹${b.winAmount.toLocaleString()}` : '₹0'}
       </td>
-      <td style="font-size: 0.8rem; color: var(--text-muted);">${placedTime}</td>
+      <td data-label="Placed At" style="font-size: 0.8rem; color: #64748B; font-weight: 600;">${placedTime}</td>
     `;
     tbody.appendChild(row);
   });
@@ -2405,17 +2405,17 @@ function renderWalletTxTable(transactions) {
     const dateStr = new Date(t.createdAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
 
     row.innerHTML = `
-      <td style="font-size: 0.8rem; color: var(--text-secondary);">${dateStr}</td>
-      <td>
+      <td data-label="Date & Time" style="font-size: 0.82rem; color: #475569; font-weight: 600;">${dateStr}</td>
+      <td data-label="Type">
         <span class="status-badge ${isCredit ? 'badge-open' : 'badge-closed'}" style="display: inline-block;">
           ${t.type.toUpperCase()}
         </span>
       </td>
-      <td style="color: #fff;">${t.description}</td>
-      <td style="font-family: var(--font-mono); font-weight: 800; color: ${isCredit ? 'var(--neon-green)' : 'var(--neon-red)'};">
+      <td data-label="Description" style="color: #0F172A; font-weight: 700;">${t.description}</td>
+      <td data-label="Amount" style="font-family: var(--font-mono); font-weight: 800; color: ${isCredit ? '#15803D' : '#DC2626'};">
         ${isCredit ? `+₹${t.amount.toLocaleString()}` : `-₹${Math.abs(t.amount).toLocaleString()}`}
       </td>
-      <td style="font-family: var(--font-mono); color: var(--gold-text); font-weight: 700;">₹${t.balanceAfter.toLocaleString()}</td>
+      <td data-label="Running Balance" style="font-family: var(--font-mono); color: #B45309; font-weight: 800;">₹${t.balanceAfter.toLocaleString()}</td>
     `;
     tbody.appendChild(row);
   });
