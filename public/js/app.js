@@ -32,6 +32,7 @@ function showToast(message, type = 'info') {
 
 // ======================== TAB NAVIGATION ========================
 function switchTab(tabId) {
+  triggerHaptic('light');
   // Update desktop buttons
   const tabs = ['markets', 'play', 'bets', 'chart', 'wallet'];
   tabs.forEach(t => {
@@ -1825,6 +1826,7 @@ function toggleJodiBet(numStr) {
   }
 
   playCasinoSound('click');
+  triggerHaptic('light');
   renderJodiMatrix();
   updateBetSlipUI();
 }
@@ -1975,6 +1977,8 @@ function toggleHarufBet(betType, digitStr) {
     });
   }
 
+  playCasinoSound('click');
+  triggerHaptic('light');
   renderHarufGrids();
   updateBetSlipUI();
 }
@@ -1989,6 +1993,10 @@ function updateBetSlipUI() {
   const countEl = document.getElementById('slipItemsCount');
   const totalAmountEl = document.getElementById('slipTotalAmount');
   const tbody = document.getElementById('slipItemsBody');
+  const dock = document.getElementById('mobileFloatingSlipDock');
+  const dockCount = document.getElementById('dockSlipCount');
+  const dockTotal = document.getElementById('dockSlipTotal');
+
   if (!countEl || !totalAmountEl || !tbody) return;
 
   countEl.textContent = state.betSlip.length;
@@ -2002,6 +2010,7 @@ function updateBetSlipUI() {
       </tr>
     `;
     totalAmountEl.textContent = '₹0';
+    if (dock) dock.style.display = 'none';
     return;
   }
 
@@ -2054,24 +2063,53 @@ function updateBetSlipUI() {
   });
 
   totalAmountEl.textContent = `₹${totalAmount.toLocaleString()}`;
+
+  // Update floating mobile dock
+  if (dock && dockCount && dockTotal) {
+    if (window.innerWidth <= 900 && state.betSlip.length > 0) {
+      dock.style.display = 'flex';
+      dockCount.textContent = state.betSlip.length;
+      dockTotal.textContent = `₹${totalAmount.toLocaleString()}`;
+    } else {
+      dock.style.display = 'none';
+    }
+  }
+}
+
+function scrollToSlipOrSubmit() {
+  triggerHaptic('medium');
+  const panel = document.getElementById('betSlipPanel');
+  if (panel) {
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    panel.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
+    panel.style.borderColor = '#F59E0B';
+    panel.style.boxShadow = '0 0 25px rgba(245, 158, 11, 0.45)';
+    setTimeout(() => {
+      panel.style.borderColor = '';
+      panel.style.boxShadow = '';
+    }, 1200);
+  }
 }
 
 function updateSlipItemAmount(index, newAmt) {
   const amt = parseInt(newAmt, 10);
   if (isNaN(amt) || amt < 5) return;
   state.betSlip[index].amount = amt;
+  triggerHaptic('light');
   updateBetSlipUI();
   updateSelectedCellHighlights();
 }
 
 function removeSlipItem(index) {
   state.betSlip.splice(index, 1);
+  triggerHaptic('medium');
   updateBetSlipUI();
   updateSelectedCellHighlights();
 }
 
 function clearBetSlip() {
   state.betSlip = [];
+  triggerHaptic('medium');
   updateBetSlipUI();
   updateSelectedCellHighlights();
   showToast('Bet slip cleared.', 'info');
@@ -2145,7 +2183,7 @@ async function submitBetSlip() {
     state.betSlip = [];
     updateBetSlipUI();
     updateSelectedCellHighlights();
-    playCasinoSound('win');
+    triggerHaptic('success');
 
     showToast(`All bets placed successfully! Total: ₹${totalAmount}`, 'success');
     setTimeout(() => switchTab('bets'), 1000);
@@ -2497,6 +2535,20 @@ function startLiveWinTicker() {
 }
 
 // ======================== CASINO AUDIO ENGINE (WEB AUDIO API) ========================
+// Tactical Mobile Vibration & Haptic Engine
+function triggerHaptic(type = 'light') {
+  if (navigator.vibrate) {
+    try {
+      if (type === 'light') navigator.vibrate(12);
+      else if (type === 'medium') navigator.vibrate(26);
+      else if (type === 'success') navigator.vibrate([15, 35, 20]);
+      else if (type === 'error') navigator.vibrate([40, 40, 40]);
+    } catch (e) {}
+  }
+  if (type === 'success') playCasinoSound('win');
+  else if (type === 'light' || type === 'medium') playCasinoSound('click');
+}
+
 let audioCtx = null;
 function playCasinoSound(type = 'click') {
   try {

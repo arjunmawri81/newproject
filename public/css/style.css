@@ -84,6 +84,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
 body {
   font-family: var(--font-main);
   background-color: var(--bg-primary);
@@ -97,6 +102,68 @@ body {
   overflow-x: hidden;
   padding-bottom: 95px;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   60 FPS HARDWARE ACCELERATED VIEW TRANSITION PHYSICS
+   ========================================================================== */
+.tab-view {
+  animation: appViewSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes appViewSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Tactile Physics on All Interactive Buttons */
+button, .btn, .num-cell, .spotlight-chip, .bottom-nav-item, .market-chip, .parcha-helper-chip {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+button:active, .btn:active, .num-cell:active, .spotlight-chip:active, .bottom-nav-item:active {
+  transform: scale(0.94) !important;
+}
+
+/* Floating Mobile Quick Bet Dock */
+.mobile-floating-slip-dock {
+  display: none;
+  position: fixed;
+  bottom: 74px;
+  left: 14px;
+  right: 14px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid #F59E0B;
+  border-radius: var(--radius-lg);
+  padding: 0.65rem 1rem;
+  z-index: 999;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 18px rgba(245, 158, 11, 0.25);
+  align-items: center;
+  justify-content: space-between;
+  animation: dockSlideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes dockSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Custom Scrollbar */

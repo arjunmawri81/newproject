@@ -713,6 +713,22 @@ crx 1234 jc into 10"></textarea>
 
   </main>
 
+  <!-- Floating Mobile Quick Bet Dock (Realtime interactive betting pill) -->
+  <div id="mobileFloatingSlipDock" class="mobile-floating-slip-dock">
+    <div style="display: flex; align-items: center; gap: 0.6rem;">
+      <span style="background: #D97706; color: #FFFFFF; font-size: 0.75rem; font-weight: 900; padding: 0.2rem 0.6rem; border-radius: 9999px;">
+        🎟️ <span id="dockSlipCount">0</span> जोड़ी
+      </span>
+      <span style="color: #FFFFFF; font-weight: 800; font-size: 0.9rem;">
+        कुल: <strong id="dockSlipTotal" style="color: #FFEA00; font-family: var(--font-mono);">₹0</strong>
+      </span>
+    </div>
+    <button class="btn btn-sm" onclick="scrollToSlipOrSubmit()"
+      style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #FFFFFF; font-weight: 900; border: none; padding: 0.45rem 1.1rem; border-radius: 9999px; box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4);">
+      ⚡ पर्चा देखें (Slip) ➔
+    </button>
+  </div>
+
   <!-- Mobile Bottom Nav -->
   <!-- Mobile Bottom Nav (Snapchat Floating Dock) -->
   <div class="bottom-nav">
