@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ROYAL SATTA | Admin Executive Control Room</title>
+  <meta name="description"
+    content="Official Admin Executive Control Room for Royal Satta Live. Auto-settlement, liability risk book, market timers, and payout management.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
+</head>
+
+<body class="admin-body">
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- ==================== ADMIN HEADER NAVBAR ==================== -->
+  <header class="navbar">
+    <div class="brand" onclick="location.href='/admin.html'">
+      <div class="brand-icon">👑</div>
+      <div class="brand-text">
+        <h1>ROYAL SATTA <span class="snap-dot">•</span> ADMIN</h1>
+        <span class="brand-sub">EXECUTIVE SETTLEMENT & RISK MANAGEMENT</span>
+      </div>
+    </div>
+
+    <!-- Center Navigation Tabs with Matched SVG Icons -->
+    <nav class="nav-center">
+      <button class="nav-tab-btn active" id="adminTabBtnDeclare" onclick="switchAdminTab('declare')">
+        <span class="nav-icon-wrap icon-markets">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </span>
+        <span>Declare Result</span>
+      </button>
+
+      <button class="nav-tab-btn" id="adminTabBtnExposure" onclick="switchAdminTab('exposure')">
+        <span class="nav-icon-wrap icon-chart">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </span>
+        <span>Risk Book</span>
+      </button>
+
+      <button class="nav-tab-btn" id="adminTabBtnUsers" onclick="switchAdminTab('users')">
+        <span class="nav-icon-wrap icon-bets">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        </span>
+        <span>Users & Wallets</span>
+      </button>
+
+      <button class="nav-tab-btn" id="adminTabBtnWithdrawals" onclick="switchAdminTab('withdrawals')">
+        <span class="nav-icon-wrap icon-wallet">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="3" />
+            <line x1="2" y1="10" x2="22" y2="10" />
+            <circle cx="6.5" cy="14.5" r="1.2" fill="currentColor" stroke="none" />
+          </svg>
+        </span>
+        <span>Payouts Queue</span>
+      </button>
+
+      <button class="nav-tab-btn" id="adminTabBtnMarkets" onclick="switchAdminTab('markets')">
+        <span class="nav-icon-wrap icon-play">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+        </span>
+        <span>Market Timings</span>
+      </button>
+
+      <button class="nav-tab-btn" id="adminTabBtnBets" onclick="switchAdminTab('allBets')">
+        <span class="nav-icon-wrap icon-bets">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+        </span>
+        <span>All Bets Log</span>
+      </button>
+    </nav>
+
+    <!-- Nav Right Items -->
+    <div class="nav-right">
+      <div class="live-clock">
+        <span class="pulse-dot"></span>
+        <span id="adminLiveClockText">--:--:--</span>
+      </div>
+
+      <a href="/" class="btn btn-secondary btn-sm" target="_blank"
+        style="font-weight: 800; display: inline-flex; align-items: center; gap: 0.35rem;">
+        <span>👁️</span> Player App
+      </a>
+
+      <span class="status-badge" id="adminUserPill"
+        style="background: #FEF3C7; color: #92400E; border: 1.5px solid #FCD34D; font-weight: 800; padding: 0.35rem 0.75rem; border-radius: 9999px;">
+        Admin
+      </span>
+
+      <button class="btn btn-danger btn-sm" onclick="logoutAdmin()" style="font-weight: 800;">Logout</button>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN DASHBOARD CONTAINER ==================== -->
+  <main class="container" style="max-width: 1280px; padding-top: 1.25rem;">
+
+    <!-- ==================== TAB 1: DECLARE RESULT & AUTO SETTLE ==================== -->
+    <section id="adminViewDeclare" class="admin-tab-view">
+
+      <!-- Hero Header Card -->
+      <div class="admin-card"
+        style="background: linear-gradient(135deg, #115E59 0%, #1E8276 50%, #047857 100%); color: #FFFFFF; border: none; box-shadow: 0 10px 30px rgba(30, 130, 118, 0.25);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div
+              style="display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255, 255, 255, 0.18); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 0.5rem;">
+              <span>⚡</span> INSTANT WINNER AUTO-SETTLEMENT
+            </div>
+            <h2 style="font-family: var(--font-heading); font-size: 1.65rem; font-weight: 900; margin: 0; color: #FFFFFF;">
+              Declare Result & Settle Market
+            </h2>
+            <p style="margin: 0.35rem 0 0 0; font-size: 0.9rem; color: #E6FFFA; max-width: 680px; line-height: 1.5;">
+              Select the market and enter the official 2-digit number (00–99). The settlement engine will instantly evaluate all pending Jodi & Haruf bets, credit winning player wallets in real-time, and update all charts.
+            </p>
+          </div>
+          <div style="text-align: right;">
+            <button class="btn btn-secondary btn-sm" onclick="initDeclareView()"
+              style="background: #FFFFFF; color: #115E59; font-weight: 900; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+              🔄 Reset Form
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column Grid: Form Left, Real-Time Payouts Right -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+
+        <!-- Left Form Card -->
+        <div class="admin-card" style="border-top: 4px solid #1E8276;">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">
+              <span>🎯</span> Enter Market Winning Result
+            </h3>
+            <span class="status-badge"
+              style="background: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; font-weight: 800;">
+              ● ENGINE READY
+            </span>
+          </div>
+
+          <form id="declareResultForm" onsubmit="handleDeclareResult(event)">
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label style="font-weight: 800; color: #0F172A; font-size: 0.88rem; margin-bottom: 0.35rem; display: block;">Select Market</label>
+              <select id="declareMarketSelect" class="form-control" required onchange="updateExposurePreview()"
+                style="font-family: var(--font-heading); font-size: 1rem; font-weight: 800; padding: 0.75rem; border-radius: var(--radius-md);">
+                <option value="DB">DB - Delhi Bazaar (03:00 PM)</option>
+                <option value="SG">SG - Shri Ganesh (04:30 PM)</option>
+                <option value="FB" selected>FB - Faridabad (06:15 PM)</option>
+                <option value="GB">GB - Ghaziabad (08:15 PM)</option>
+                <option value="GALI">GALI - Gali (11:30 PM)</option>
+                <option value="DS">DS - Desawar (05:00 AM)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label style="font-weight: 800; color: #0F172A; font-size: 0.88rem; margin-bottom: 0.35rem; display: block;">Result Date</label>
+              <input type="date" id="declareDateInput" class="form-control" required onchange="updateExposurePreview()"
+                style="font-family: var(--font-mono); font-size: 1rem; font-weight: 700; padding: 0.75rem; border-radius: var(--radius-md);">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label style="font-weight: 800; color: #0F172A; font-size: 0.88rem; margin-bottom: 0.35rem; display: block;">
+                2-Digit Winning Number (00 to 99)
+              </label>
+              <div style="display: flex; gap: 1rem; align-items: center;">
+                <input type="text" id="declareResultNumber" class="form-control"
+                  style="font-family: var(--font-mono); font-size: 2.2rem; font-weight: 900; text-align: center; width: 140px; color: #115E59; border: 2.5px solid #1E8276; background: #F0FDF4; border-radius: 12px; letter-spacing: 2px;"
+                  placeholder="47" maxlength="2" required oninput="previewDigits(this.value)">
+
+                <!-- Haruf Ander / Bahar Micro Preview Badges -->
+                <div style="display: flex; gap: 0.5rem; flex: 1;">
+                  <div
+                    style="flex: 1; background: #F8FAFC; padding: 0.6rem 0.5rem; border-radius: 10px; border: 1.5px solid #E2E8F0; text-align: center;">
+                    <div style="font-size: 0.68rem; font-weight: 800; color: #64748B; text-transform: uppercase;">🅰️ ANDAR (1st)</div>
+                    <div id="previewAndar"
+                      style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 900; color: #0F172A; margin-top: 2px;">
+                      -
+                    </div>
+                  </div>
+                  <div
+                    style="flex: 1; background: #F8FAFC; padding: 0.6rem 0.5rem; border-radius: 10px; border: 1.5px solid #E2E8F0; text-align: center;">
+                    <div style="font-size: 0.68rem; font-weight: 800; color: #64748B; text-transform: uppercase;">🅱️ BAHAR (2nd)</div>
+                    <div id="previewBahar"
+                      style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 900; color: #0F172A; margin-top: 2px;">
+                      -
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Caution Banner -->
+            <div
+              style="padding: 0.85rem 1rem; background: #FFFBEB; border-left: 4px solid #F59E0B; border-radius: 6px; font-size: 0.82rem; color: #92400E; line-height: 1.5; margin-bottom: 1.25rem;">
+              ⚠️ <strong>Immediate Wallet Settlement:</strong> Declaring this result will finalize all placed bets for this date and instantly distribute winnings into players' live wallets.
+            </div>
+
+            <button type="submit" id="btnDeclareSubmit" class="btn btn-primary"
+              style="width: 100%; font-size: 1.05rem; font-weight: 900; padding: 0.9rem; background: #166534; border-color: #14532D; box-shadow: 0 4px 14px rgba(22, 101, 52, 0.35); border-radius: var(--radius-md);">
+              ⚡ Declare Result & Auto-Credit Winners
+            </button>
+          </form>
+        </div>
+
+        <!-- Right Summary Card -->
+        <div class="admin-card" id="settlementResultBox" style="border-top: 4px solid #D97706;">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">
+              <span>📊</span> Live Settlement Summary & Payouts
+            </h3>
+          </div>
+
+          <div id="settlementEmptyPlaceholder" style="padding: 3.5rem 1rem; text-align: center; color: #64748B;">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎰</div>
+            <div style="font-weight: 800; color: #0F172A; font-size: 1.05rem; margin-bottom: 0.25rem;">No Settlement Pending</div>
+            <div style="font-size: 0.85rem; max-width: 320px; margin: 0 auto; line-height: 1.5;">
+              Submit a market result on the left to see live breakdown, evaluated bets, winners count, and distributed cash.
+            </div>
+          </div>
+
+          <div id="settlementStatsArea" style="display: none;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem;">
+              <div
+                style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 0.85rem; text-align: center;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #64748B;">EVALUATED BETS</div>
+                <div id="statEvaluatedBets"
+                  style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 900; color: #0F172A; margin-top: 2px;">
+                  0
+                </div>
+              </div>
+              <div
+                style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 10px; padding: 0.85rem; text-align: center;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #166534;">WINNERS COUNT</div>
+                <div id="statTotalWinners"
+                  style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 900; color: #15803D; margin-top: 2px;">
+                  0
+                </div>
+              </div>
+              <div
+                style="background: #FEF3C7; border: 1.5px solid #FCD34D; border-radius: 10px; padding: 0.85rem; text-align: center;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #92400E;">TOTAL DISBURSED</div>
+                <div id="statTotalPayout"
+                  style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 900; color: #B45309; margin-top: 2px;">
+                  ₹0
+                </div>
+              </div>
+            </div>
+
+            <h4 style="font-size: 0.92rem; font-weight: 800; color: #0F172A; margin-bottom: 0.6rem;">
+              Winning Players Credited:
+            </h4>
+            <div class="custom-table-wrapper" style="max-height: 250px; overflow-y: auto;">
+              <table class="custom-table" style="font-size: 0.82rem;">
+                <thead class="head-charcoal">
+                  <tr>
+                    <th>User</th>
+                    <th>Bet Type</th>
+                    <th>Placed Amount</th>
+                    <th>Won Payout</th>
+                    <th>New Live Balance</th>
+                  </tr>
+                </thead>
+                <tbody id="settlementWinnersList">
+                  <!-- Winners list -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: LIVE RISK / EXPOSURE BOOK ==================== -->
+    <section id="adminViewExposure" class="admin-tab-view" style="display: none;">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">
+            <span>📈</span> Market Liability Book & Exposure Sheet
+          </h3>
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <select id="exposureMarketSelect" class="form-control" style="width: auto;" onchange="loadExposureData()">
+              <option value="FB">FB - Faridabad</option>
+              <option value="GB">GB - Ghaziabad</option>
+              <option value="GALI">GALI - Gali</option>
+              <option value="DS">DS - Desawar</option>
+              <option value="DB">DB - Delhi Bazaar</option>
+              <option value="SG">SG - Shri Ganesh</option>
+            </select>
+            <input type="date" id="exposureDateInput" class="form-control" style="width: auto;" onchange="loadExposureData()">
+            <button class="btn btn-secondary btn-sm" onclick="loadExposureData()" style="font-weight: 800;">🔄 Refresh Sheet</button>
+          </div>
+        </div>
+
+        <!-- Exposure 4-Card Overview -->
+        <div class="admin-kpi-grid">
+          <div class="admin-kpi-card" style="--kpi-color: #D97706;">
+            <div class="admin-kpi-label">Total Collection (Pool)</div>
+            <div id="expTotalCollection" class="admin-kpi-value" style="color: #D97706;">₹0</div>
+            <div class="admin-kpi-sub">Gross betting volume</div>
+          </div>
+          <div class="admin-kpi-card" style="--kpi-color: #2563EB;">
+            <div class="admin-kpi-label">Total Bets Placed</div>
+            <div id="expTotalBets" class="admin-kpi-value" style="color: #2563EB;">0</div>
+            <div class="admin-kpi-sub">Total user slips</div>
+          </div>
+          <div class="admin-kpi-card" style="--kpi-color: #DC2626;">
+            <div class="admin-kpi-label">Max Payout Risk</div>
+            <div id="expMaxRisk" class="admin-kpi-value" style="color: #DC2626;">₹0</div>
+            <div class="admin-kpi-sub">Worst case liability</div>
+          </div>
+          <div class="admin-kpi-card" style="--kpi-color: #16A34A;">
+            <div class="admin-kpi-label">Safe Profit Numbers</div>
+            <div id="expSafeNumbersCount" class="admin-kpi-value" style="color: #16A34A;">0 / 100</div>
+            <div class="admin-kpi-sub">Guaranteed profit jodis</div>
+          </div>
+        </div>
+
+        <!-- High Liability Table -->
+        <h4 style="margin: 1.5rem 0 0.75rem 0; color: #0F172A; font-weight: 800;">
+          Top Highest Exposure Numbers (High Liability First):
+        </h4>
+        <div class="custom-table-wrapper" style="max-height: 450px; overflow-y: auto;">
+          <table class="custom-table">
+            <thead class="head-charcoal">
+              <tr>
+                <th>Number (Jodi)</th>
+                <th>Jodi Bet Volume</th>
+                <th>Total Payout If Opens</th>
+                <th>Admin Net Profit / Loss</th>
+                <th>Risk Level</th>
+              </tr>
+            </thead>
+            <tbody id="exposureTableBody">
+              <!-- Exposure rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: USERS & WALLETS ==================== -->
+    <section id="adminViewUsers" class="admin-tab-view" style="display: none;">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">
+            <span>👥</span> Registered Players & Wallet Balances
+          </h3>
+          <button class="btn btn-secondary btn-sm" onclick="loadAdminUsers()" style="font-weight: 800;">🔄 Refresh Players</button>
+        </div>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead class="head-charcoal">
+              <tr>
+                <th>Username</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Current Balance</th>
+                <th>Total Bets</th>
+                <th>Total Bet Amount</th>
+                <th>Total Won</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminUsersTableBody">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: MARKET TIMINGS ==================== -->
+    <section id="adminViewMarkets" class="admin-tab-view" style="display: none;">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">
+            <span>⏰</span> Manage Market Timings, Rates & Manual Overrides
+          </h3>
+          <button class="btn btn-secondary btn-sm" onclick="loadAdminMarketSettings()" style="font-weight: 800;">🔄 Refresh Markets</button>
+        </div>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead class="head-charcoal">
+              <tr>
+                <th>Market</th>
+                <th>Open Time</th>
+                <th>Close Time (Betting Stops)</th>
+                <th>Result Time</th>
+                <th>Jodi Rate (x)</th>
+                <th>Haruf Rate (x)</th>
+                <th>Manual Override</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminMarketsTableBody">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: ALL BETS LOG ==================== -->
+    <section id="adminViewAllBets" class="admin-tab-view" style="display: none;">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">
+            <span>📑</span> All Bets Placed Across System
+          </h3>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <input type="date" id="allBetsDateInput" class="form-control" style="width: auto;" onchange="loadAdminAllBets()">
+            <select id="allBetsMarketSelect" class="form-control" style="width: auto;" onchange="loadAdminAllBets()">
+              <option value="">All Markets</option>
+              <option value="DB">DB</option>
+              <option value="SG">SG</option>
+              <option value="FB">FB</option>
+              <option value="GB">GB</option>
+              <option value="GALI">GALI</option>
+              <option value="DS">DS</option>
+            </select>
+            <select id="allBetsStatusSelect" class="form-control" style="width: auto;" onchange="loadAdminAllBets()">
+              <option value="">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="won">Won</option>
+              <option value="lost">Lost</option>
+            </select>
+            <button class="btn btn-secondary btn-sm" onclick="loadAdminAllBets()" style="font-weight: 800;">🔄 Filter</button>
+          </div>
+        </div>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead class="head-charcoal">
+              <tr>
+                <th>Date</th>
+                <th>Player</th>
+                <th>Market</th>
+                <th>Type</th>
+                <th>Number</th>
+                <th>Points</th>
+                <th>Status</th>
+                <th>Payout</th>
+                <th>Placed At</th>
+              </tr>
+            </thead>
+            <tbody id="adminAllBetsTableBody">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: PAYOUTS & WITHDRAWALS ==================== -->
+    <section id="adminViewWithdrawals" class="admin-tab-view" style="display: none;">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">
+            <span>💳</span> Instant Payout Queue & Withdrawal Approvals
+          </h3>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <select id="adminWdStatusFilter" class="form-control" style="width: auto;" onchange="loadAdminWithdrawals()">
+              <option value="pending">Pending Payouts</option>
+              <option value="completed">Completed / Paid</option>
+              <option value="rejected">Rejected & Refunded</option>
+              <option value="all">All Withdrawals</option>
+            </select>
+            <input type="text" id="adminWdSearchInput" class="form-control" placeholder="Search user, UPI, ID..."
+              style="width: 220px;" oninput="loadAdminWithdrawals()">
+            <button class="btn btn-secondary btn-sm" onclick="loadAdminWithdrawals()" style="font-weight: 800;">🔄 Refresh</button>
+          </div>
+        </div>
+
+        <!-- Quick Metrics -->
+        <div class="admin-kpi-grid">
+          <div class="admin-kpi-card" style="--kpi-color: #D97706;">
+            <div class="admin-kpi-label">Pending Requests</div>
+            <div id="statWdPendingCount" class="admin-kpi-value" style="color: #D97706;">0</div>
+            <div class="admin-kpi-sub">Awaiting confirmation</div>
+          </div>
+          <div class="admin-kpi-card" style="--kpi-color: #DC2626;">
+            <div class="admin-kpi-label">Pending Payout Cash</div>
+            <div id="statWdPendingAmount" class="admin-kpi-value" style="color: #DC2626;">₹0</div>
+            <div class="admin-kpi-sub">Total cash required</div>
+          </div>
+          <div class="admin-kpi-card" style="--kpi-color: #16A34A;">
+            <div class="admin-kpi-label">Total Disbursed</div>
+            <div id="statWdCompletedAmount" class="admin-kpi-value" style="color: #16A34A;">₹0</div>
+            <div class="admin-kpi-sub">Successfully paid</div>
+          </div>
+          <div class="admin-kpi-card" style="--kpi-color: #2563EB;">
+            <div class="admin-kpi-label">All-Time Requests</div>
+            <div id="statWdTotalCount" class="admin-kpi-value" style="color: #2563EB;">0</div>
+            <div class="admin-kpi-sub">Lifetime withdrawal logs</div>
+          </div>
+        </div>
+
+        <!-- Withdrawals Table -->
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead class="head-charcoal">
+              <tr>
+                <th>ID & Time</th>
+                <th>Player</th>
+                <th>Amount</th>
+                <th>Route</th>
+                <th>Payout Account / UPI</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminWithdrawalsTableBody">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Adjust User Balance Modal -->
+  <div class="modal-overlay" id="adjustBalanceModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Credit / Debit User Wallet</h3>
+        <button class="close-btn" onclick="closeAdminModals()">&times;</button>
+      </div>
+      <form onsubmit="handleAdjustBalance(event)">
+        <input type="hidden" id="adjUserId">
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label>Player Username</label>
+          <input type="text" id="adjUsername" class="form-control" readonly
+            style="color: #115E59; font-weight: 800; background: #F0FDF4;">
+        </div>
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label>Current Balance</label>
+          <input type="text" id="adjCurrentBalance" class="form-control" readonly
+            style="font-family: var(--font-mono); font-weight: 800;">
+        </div>
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label>Adjustment Amount (₹)</label>
+          <input type="number" id="adjAmount" class="form-control" placeholder="e.g. +5000 to add, -2000 to deduct"
+            required>
+          <small style="color: #64748B; font-size: 0.75rem; margin-top: 3px; display: block;">Use positive numbers (5000) to credit money, negative (-500) to debit.</small>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label>Reason / Audit Note</label>
+          <input type="text" id="adjDescription" class="form-control" placeholder="e.g. Manual UPI Deposit or Prize Bonus"
+            required>
+        </div>
+        <button type="submit" class="btn btn-primary"
+          style="width: 100%; background: #166534; border-color: #14532D; font-weight: 900;">
+          ⚡ Update Balance Now
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Payout Action Modal (Approve or Reject) -->
+  <div class="modal-overlay" id="payoutActionModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="payoutActionTitle">Process Payout Request</h3>
+        <button class="close-btn" onclick="closeAdminModals()">&times;</button>
+      </div>
+      <form onsubmit="submitPayoutAction(event)">
+        <input type="hidden" id="payoutActionWdId">
+        <input type="hidden" id="payoutActionType">
+        <div id="payoutActionPrompt" style="margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.5; color: #0F172A;"></div>
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label id="payoutActionNoteLabel">Optional Note / Reference ID</label>
+          <input type="text" id="payoutActionNote" class="form-control" placeholder="e.g. UTR / UPI Ref: 1234567890">
+        </div>
+        <button type="submit" id="payoutActionSubmitBtn" class="btn btn-primary" style="width: 100%; font-weight: 900;">
+          Confirm Action
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN LOGIN GATE MODAL ==================== -->
+  <div class="modal-overlay" id="adminLoginGateModal">
+    <div class="modal-card" style="max-width: 440px; border-top: 5px solid #1E8276;">
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.35rem;">👑</div>
+        <h3 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 900; color: #0F172A; margin: 0;">
+          Admin Control Portal
+        </h3>
+        <p style="font-size: 0.85rem; color: #64748B; margin-top: 0.25rem;">
+          Enter credentials or click the instant demo login button below
+        </p>
+      </div>
+
+      <!-- 1-Click Demo Admin Login Banner -->
+      <div
+        style="margin-bottom: 1.25rem; padding: 0.9rem; background: #FEF3C7; border: 1.5px dashed #F59E0B; border-radius: var(--radius-md); text-align: center;">
+        <div style="font-size: 0.8rem; font-weight: 900; color: #92400E; margin-bottom: 0.35rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem;">
+          <span>⚡</span> Live Demo Admin Credentials
+        </div>
+        <div style="font-size: 0.78rem; color: #78350F; margin-bottom: 0.65rem; font-family: var(--font-mono);">
+          Username: <strong>admin</strong> • Password: <strong>admin123</strong>
+        </div>
+        <button type="button" class="btn btn-sm" onclick="quickDemoAdminLogin('admin', 'admin123')"
+          style="width: 100%; background: #D97706; color: #FFFFFF; font-weight: 900; font-size: 0.85rem; padding: 0.55rem; border-radius: 6px; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);">
+          🚀 1-Click Instant Demo Admin Login
+        </button>
+      </div>
+
+      <form onsubmit="handleAdminLoginForm(event)">
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label>Admin Username</label>
+          <input type="text" id="adminGateUsername" class="form-control" placeholder="admin" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label>Admin Password</label>
+          <input type="password" id="adminGatePassword" class="form-control" placeholder="admin123" required>
+        </div>
+        <button type="submit" class="btn btn-primary"
+          style="width: 100%; font-weight: 900; padding: 0.8rem; background: #166534; border-color: #14532D;">
+          🔐 Sign In to Control Room
+        </button>
+      </form>
+
+      <div style="margin-top: 1rem; text-align: center; font-size: 0.82rem; color: #64748B;">
+        Want to view as player? <a href="/" target="_blank" style="color: var(--brand-teal); font-weight: 800;">Open Player Site</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+
+</html>

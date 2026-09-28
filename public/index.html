@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ROYAL SATTA LIVE | Play DB, SG, FB, GB, Gali, Desawar</title>
+  <meta name="description"
+    content="Play Jodi and Haruf on top markets: Delhi Bazaar, Shri Ganesh, Faridabad, Ghaziabad, Gali, Desawar with instant result settlement.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
+</head>
+
+<body>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Header / Navigation Bar -->
+  <header class="navbar">
+    <div class="brand" onclick="switchTab('markets')">
+      <div class="brand-icon">👑</div>
+      <div class="brand-text">
+        <h1>ROYAL SATTA</h1>
+        <span class="brand-sub">LIVE PLAY & RESULTS</span>
+      </div>
+    </div>
+
+    <nav class="nav-center">
+      <button class="nav-tab-btn active" id="tabBtnMarkets" onclick="switchTab('markets')">
+        <span class="nav-icon-wrap icon-markets">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+            <path d="M4 22h16" />
+            <path d="M10 14.66V17c0 .55-.45 1-1 1H7" />
+            <path d="M14 14.66V17c0 .55.45 1 1 1h2" />
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+          </svg>
+        </span>
+        <span>Markets & Results</span>
+      </button>
+      <button class="nav-tab-btn" id="tabBtnPlay" onclick="switchTab('play')">
+        <span class="nav-icon-wrap icon-play">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="4" />
+            <circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none" />
+            <circle cx="16" cy="8" r="1.5" fill="currentColor" stroke="none" />
+            <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+            <circle cx="8" cy="16" r="1.5" fill="currentColor" stroke="none" />
+            <circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none" />
+          </svg>
+        </span>
+        <span>Play Game</span>
+      </button>
+      <button class="nav-tab-btn" id="tabBtnBets" onclick="switchTab('bets')">
+        <span class="nav-icon-wrap icon-bets">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+            <path d="m9 14 2 2 4-4" />
+          </svg>
+        </span>
+        <span>My Bets</span>
+      </button>
+      <button class="nav-tab-btn" id="tabBtnChart" onclick="switchTab('chart')">
+        <span class="nav-icon-wrap icon-chart">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+            <line x1="2" y1="20" x2="22" y2="20" />
+          </svg>
+        </span>
+        <span>Results Chart</span>
+      </button>
+      <button class="nav-tab-btn" id="tabBtnWallet" onclick="switchTab('wallet')">
+        <span class="nav-icon-wrap icon-wallet">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="3" />
+            <line x1="2" y1="10" x2="22" y2="10" />
+            <circle cx="6.5" cy="14.5" r="1.2" fill="currentColor" stroke="none" />
+          </svg>
+        </span>
+        <span>Passbook</span>
+      </button>
+    </nav>
+
+    <div class="nav-right">
+      <div class="live-clock">
+        <span class="pulse-dot"></span>
+        <span id="liveClockText">--:--:--</span>
+      </div>
+
+      <!-- Logged In User Pill -->
+      <div id="userHeaderSection" style="display: none; align-items: center; gap: 0.5rem;">
+        <div class="wallet-badge" onclick="switchTab('wallet')">
+          <span style="font-size: 0.9rem;">💰</span>
+          <span class="wallet-balance" id="headerBalance">₹0</span>
+          <button class="wallet-add-btn" title="Add Demo Balance"
+            onclick="event.stopPropagation(); openAddFundsModal();">+</button>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="headerUsername">User</button>
+        <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
+      </div>
+
+      <!-- Guest Login / Register Buttons -->
+      <div id="guestHeaderSection" style="display: flex; gap: 0.5rem;">
+        <button class="btn btn-secondary btn-sm" onclick="openLoginModal()">Login</button>
+        <button class="btn btn-primary btn-sm" onclick="openRegisterModal()">Register</button>
+      </div>
+
+      <!-- Admin Portal Link -->
+      <a href="/admin.html" class="btn btn-secondary btn-sm"
+        style="border-color: var(--brand-gold); color: #B45309; font-weight: 800;">
+        ⚙️ Admin
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Winning Marquee Ticker -->
+    <div class="snap-ticker-bar">
+      <span class="ticker-badge">
+        🔥 LIVE PAYOUTS
+      </span>
+      <div class="ticker-text" id="liveTickerText">
+        🎉 Rohit_VIP won ₹18,000 in Desawar (Jodi 84) • ⚡ Aman_99 received ₹9,000 instant UPI payout • 🏆 Kabir_King won
+        ₹4,500 in Gali (Haruf 7 Bahar) • ⚡ Priya_Delhi won ₹27,000 in Faridabad!
+      </div>
+    </div>
+
+    <!-- ==================== TAB 1: MARKETS & RESULTS ==================== -->
+    <section id="viewMarkets" class="tab-view">
+
+      <!-- Master Live Draw Table (Matching Reference Image 2) -->
+      <div class="custom-table-wrapper" style="margin-bottom: 2rem;">
+        <div class="table-teal-banner">
+          <span>🏆</span> Satta Result of September 27, 2026 & September 26, 2026
+        </div>
+        <table class="custom-table">
+          <thead class="head-charcoal">
+            <tr>
+              <th style="text-align: left; padding-left: 1.5rem;">Regional Offline Draw Results</th>
+              <th style="width: 130px;">Sat. 26th</th>
+              <th style="width: 150px;">Sun. 27th (Today)</th>
+            </tr>
+          </thead>
+          <tbody id="liveDrawTableBody">
+            <tr>
+              <td style="text-align: left; padding-left: 1.5rem;">
+                <span class="table-live-pill"><span class="pulse-dot"></span> LIVE</span>
+                <strong style="margin-left: 0.5rem; font-size: 1rem;">DELHI BAZAAR (DB)</strong>
+                <div style="font-size: 0.75rem; color: #64748B; margin-top: 2px;">at 03:00 PM • Open Daily</div>
+              </td>
+              <td class="td-val-bold">58</td>
+              <td class="td-val-bold" style="color: #1E8276;">77</td>
+            </tr>
+            <tr>
+              <td style="text-align: left; padding-left: 1.5rem;">
+                <span class="table-live-pill"><span class="pulse-dot"></span> LIVE</span>
+                <strong style="margin-left: 0.5rem; font-size: 1rem;">SHRI GANESH (SG)</strong>
+                <div style="font-size: 0.75rem; color: #64748B; margin-top: 2px;">at 04:30 PM • Open Daily</div>
+              </td>
+              <td class="td-val-bold">89</td>
+              <td class="td-val-bold" style="color: #059669;">OPEN</td>
+            </tr>
+            <tr>
+              <td style="text-align: left; padding-left: 1.5rem;">
+                <span class="table-live-pill"><span class="pulse-dot"></span> LIVE</span>
+                <strong style="margin-left: 0.5rem; font-size: 1rem;">FARIDABAD (FB)</strong>
+                <div style="font-size: 0.75rem; color: #64748B; margin-top: 2px;">at 06:15 PM • Open Daily</div>
+              </td>
+              <td class="td-val-bold">45</td>
+              <td class="td-val-bold" style="color: #1E8276;">22</td>
+            </tr>
+            <tr>
+              <td style="text-align: left; padding-left: 1.5rem;">
+                <span class="table-live-pill"><span class="pulse-dot"></span> LIVE</span>
+                <strong style="margin-left: 0.5rem; font-size: 1rem;">GHAZIABAD (GB)</strong>
+                <div style="font-size: 0.75rem; color: #64748B; margin-top: 2px;">at 08:30 PM • Open Daily</div>
+              </td>
+              <td class="td-val-bold">86</td>
+              <td class="td-val-bold" style="color: #059669;">OPEN</td>
+            </tr>
+            <tr>
+              <td style="text-align: left; padding-left: 1.5rem;">
+                <span class="table-live-pill"><span class="pulse-dot"></span> LIVE</span>
+                <strong style="margin-left: 0.5rem; font-size: 1rem;">GALI (GL)</strong>
+                <div style="font-size: 0.75rem; color: #64748B; margin-top: 2px;">at 11:15 PM • Open Daily</div>
+              </td>
+              <td class="td-val-bold">81</td>
+              <td class="td-val-bold" style="color: #059669;">OPEN</td>
+            </tr>
+            <tr>
+              <td style="text-align: left; padding-left: 1.5rem;">
+                <span class="table-live-pill"><span class="pulse-dot"></span> LIVE</span>
+                <strong style="margin-left: 0.5rem; font-size: 1rem;">DESAWAR (DS)</strong>
+                <div style="font-size: 0.75rem; color: #64748B; margin-top: 2px;">at 05:00 AM • Morning Draw</div>
+              </td>
+              <td class="td-val-bold">XX</td>
+              <td class="td-val-bold" style="color: #1E8276;">84</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 1. BINDAS PLAY KRO DOSTO MARQUEE (Left-to-Right Scrolling Banner) -->
+      <div class="bindas-marquee-bar">
+        <div class="bindas-marquee-track">
+          <span>👑 <strong>बिंदास प्ले करो दोस्तों!</strong> 100% भरोसेमंद खाईवाल • 10 का 900 • 100 का 900 • सीधा बैंक व
+            UPI में 2 मिनट में विथड्रॉल • 24x7 ऑटो रिजल्ट • नो फ्रॉड नो चीटिंग 👑</span>
+          <span>👑 <strong>बिंदास प्ले करो दोस्तों!</strong> 100% भरोसेमंद खाईवाल • 10 का 900 • 100 का 900 • सीधा बैंक व
+            UPI में 2 मिनट में विथड्रॉल • 24x7 ऑटो रिजल्ट • नो फ्रॉड नो चीटिंग 👑</span>
+        </div>
+      </div>
+
+      <!-- 2. NEXT / LIVE RESULT WAITING SPOTLIGHT (Auto-sync with Admin) -->
+      <div class="live-spotlight-box" id="liveSpotlightBox">
+        <!-- Rendered dynamically by JS -->
+      </div>
+
+      <div class="section-header">
+        <h3><span>🔥</span> Today's Live Markets (DB, SG, FB, GB, Gali, DS)</h3>
+        <button class="btn btn-secondary btn-sm" onclick="loadMarkets()">🔄 Refresh</button>
+      </div>
+
+      <div class="markets-grid" id="marketsGrid">
+        <!-- Dynamically rendered market cards -->
+        <div style="text-align: center; grid-column: 1/-1; padding: 2rem; color: var(--text-secondary);">
+          Loading live markets...
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: PLAY GAME SCREEN ==================== -->
+    <section id="viewPlay" class="tab-view" style="display: none;">
+      <div class="game-screen">
+        <!-- Active Open Game Header Banner (Clean & Focused) -->
+        <div id="playActiveMarketBanner" style="margin-bottom: 1.25rem;">
+          <!-- Dynamically Rendered: Shows currently selected OPEN game details and open switchers -->
+        </div>
+
+        <!-- ==================== PARCHA SECTION ==================== -->
+        <div id="parchaSection" style="display: block; margin-bottom: 1.5rem;">
+          <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem;">
+
+            <!-- Left Card: Raw Telegram / WhatsApp Text Parcha Parser (Advanced Khayiwal Engine) -->
+            <div
+              style="background: #FFFFFF; border: 1.5px solid #22C55E; border-radius: var(--radius-lg); padding: 1.35rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 22px rgba(34, 197, 94, 0.12);">
+
+              <div>
+                <!-- Header with Title and Samples -->
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+                  <h4
+                    style="color: #0F172A; font-size: 1.15rem; font-weight: 900; display: flex; align-items: center; gap: 0.45rem; margin: 0;">
+                    <span style="font-size: 1.35rem;">📋</span> WhatsApp / Telegram पर्चा
+                  </h4>
+                  <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-secondary btn-sm"
+                      style="font-size: 0.72rem; padding: 0.25rem 0.55rem; font-weight: 800; border-radius: 6px;"
+                      onclick="loadParchaSample(1)">📋 1: जोड़ी</button>
+                    <button type="button" class="btn btn-secondary btn-sm"
+                      style="font-size: 0.72rem; padding: 0.25rem 0.55rem; font-weight: 800; border-radius: 6px;"
+                      onclick="loadParchaSample(2)">🔄 2: पलट+हरूफ</button>
+                    <button type="button" class="btn btn-secondary btn-sm"
+                      style="font-size: 0.72rem; padding: 0.25rem 0.55rem; font-weight: 800; border-radius: 6px;"
+                      onclick="loadParchaSample(3)">🔀 3: क्रॉसिंग</button>
+                  </div>
+                </div>
+
+                <!-- Quick Insert Buttons for Satta Players -->
+                <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                  <button type="button" class="parcha-helper-chip" onclick="insertParchaTemplate('jodi')">🎲 सीधी
+                    जोड़ी</button>
+                  <button type="button" class="parcha-helper-chip" onclick="insertParchaTemplate('palat')">🔄 पलट
+                    (Palat)</button>
+                  <button type="button" class="parcha-helper-chip" onclick="insertParchaTemplate('andar')">🅰️ अंदर
+                    हरुफ</button>
+                  <button type="button" class="parcha-helper-chip" onclick="insertParchaTemplate('bahar')">🅱️ बाहर
+                    हरुफ</button>
+                  <button type="button" class="parcha-helper-chip" onclick="insertParchaTemplate('andar_bahar')">🎯 A/B
+                    हरुफ</button>
+                  <button type="button" class="parcha-helper-chip" onclick="insertParchaTemplate('crossing_wj')">🔀
+                    क्रॉसिंग (WJ)</button>
+                  <button type="button" class="parcha-helper-chip" onclick="insertParchaTemplate('crossing_jc')">✂️
+                    क्रॉसिंग (JC)</button>
+                  <button type="button" class="parcha-helper-chip" onclick="insertParchaTemplate('joda')">🔟 सारे
+                    जोड़े</button>
+                  <button type="button" class="parcha-helper-chip" onclick="insertParchaTemplate('munda')">0️⃣ सारे
+                    मुंडे</button>
+                </div>
+
+                <textarea id="rawParchaText" class="form-control" oninput="liveUpdateKhayiwalDecoder()"
+                  style="min-height: 240px; font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; line-height: 1.7; resize: vertical; background: #FAFAFA; border: 1.5px solid #CBD5E1; color: #0F172A; padding: 1rem; border-radius: var(--radius-md); box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);"
+                  placeholder="WhatsApp या Telegram का पर्चा यहाँ सीधा पेस्ट या टाइप करें:
+उदा:
+12 34 56 78 into 100
+92 04 55 into 50
+45 67 palat into 100
+andar 4 into 200
+bahar 7 into 150
+4 a/b into 100
+12345 into 50
+crx 1234 jc into 10"></textarea>
+
+                <!-- Real-time Live Khayiwal Decoder & Breakdown (Visible only when text is entered) -->
+                <div id="parchaLiveDecoder" class="parcha-live-decoder" style="display: none; margin-top: 0.75rem;">
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button type="button" class="btn btn-primary"
+                  style="flex: 1; font-weight: 900; font-size: 1.02rem; padding: 0.85rem; background: #166534; border-color: #14532D; box-shadow: 0 4px 14px rgba(22, 101, 52, 0.35); border-radius: var(--radius-md);"
+                  onclick="parseRawParchaText()">
+                  ⚡ पर्चा स्लिप में लोड करें (Add to Slip)
+                </button>
+                <button type="button" class="btn btn-secondary"
+                  style="padding: 0 1.25rem; font-weight: 800; border-radius: var(--radius-md);"
+                  onclick="clearRawParcha()">
+                  🗑️ साफ करें
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Card: Fast Jodi Maker (Jodi into X, Palat) -->
+            <div
+              style="background: #FFFFFF; border: 1.5px solid #F59E0B; border-radius: var(--radius-lg); padding: 1.35rem; box-shadow: 0 6px 22px rgba(245, 158, 11, 0.1); display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+                  <h4
+                    style="color: #0F172A; font-size: 1.15rem; font-weight: 900; display: flex; align-items: center; gap: 0.45rem; margin: 0;">
+                    <span>⚡</span> फास्ट जोड़ी मेकर (Fast Jodi Entry)
+                  </h4>
+                  <span class="status-badge"
+                    style="background: #FEF3C7; color: #92400E; font-size: 0.72rem; border: 1px solid #FCD34D; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 9999px;">
+                    ● JODI ENTRY
+                  </span>
+                </div>
+
+                <!-- Jodi Input -->
+                <div class="form-group" style="margin-bottom: 0.95rem;">
+                  <label
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                    <span style="font-weight: 800; color: #0F172A; font-size: 0.9rem;">Jodi Numbers (जोड़ी
+                      संख्याएं)</span>
+                    <span style="font-size: 0.78rem; color: #B45309; font-weight: 800;">उदा. 12 34 56 78</span>
+                  </label>
+                  <input type="text" id="parchaJodiInput" class="form-control"
+                    placeholder="उदा: 12 34 56 78 90 (स्पेस या कॉमा लगाएं)"
+                    style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 800; color: #0F172A; background: #FAFAFA; border: 1.5px solid #CBD5E1; letter-spacing: 1px; padding: 0.75rem 0.9rem; border-radius: var(--radius-md);">
+                </div>
+
+                <!-- Into Selection -->
+                <div class="form-group" style="margin-bottom: 0.95rem;">
+                  <label
+                    style="font-weight: 800; color: #0F172A; font-size: 0.9rem; margin-bottom: 0.4rem; display: block;">Into
+                    (प्रति जोड़ी कितने रुपये):</label>
+                  <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.65rem;">
+                    <button type="button" class="btn btn-secondary btn-sm parcha-into-chip"
+                      onclick="setParchaInto(10)">into 10</button>
+                    <button type="button" class="btn btn-secondary btn-sm parcha-into-chip"
+                      onclick="setParchaInto(20)">into 20</button>
+                    <button type="button" class="btn btn-secondary btn-sm parcha-into-chip active"
+                      onclick="setParchaInto(50)">into 50</button>
+                    <button type="button" class="btn btn-secondary btn-sm parcha-into-chip"
+                      onclick="setParchaInto(100)">into 100</button>
+                    <button type="button" class="btn btn-secondary btn-sm parcha-into-chip"
+                      onclick="setParchaInto(200)">into 200</button>
+                    <button type="button" class="btn btn-secondary btn-sm parcha-into-chip"
+                      onclick="setParchaInto(500)">into 500</button>
+                  </div>
+                  <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <span style="font-size: 1.2rem; color: #0F172A; font-weight: 900;">₹</span>
+                    <input type="number" id="parchaIntoInput" class="form-control"
+                      style="font-family: var(--font-mono); font-size: 1.05rem; font-weight: 800; width: 120px; color: #0F172A; background: #FAFAFA; border: 1.5px solid #CBD5E1; border-radius: 6px;"
+                      value="50" min="5">
+                    <span style="font-size: 0.85rem; color: #475569; font-weight: 700;">रुपये प्रति जोड़ी</span>
+                  </div>
+                </div>
+
+                <!-- With Palat Option -->
+                <div
+                  style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: var(--radius-md); padding: 0.75rem 0.95rem; margin-bottom: 1rem;">
+                  <label
+                    style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; color: #0F172A; font-weight: 800; font-size: 0.9rem; margin: 0;">
+                    <input type="checkbox" id="parchaWithPalat"
+                      style="width: 18px; height: 18px; accent-color: #059669; cursor: pointer;">
+                    <span>🔄 With Palat (पलट के साथ - जैसे 12 का 21 भी लगेगा)</span>
+                  </label>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-primary"
+                style="width: 100%; font-size: 1.02rem; padding: 0.85rem; font-weight: 900; background: #D97706; border-color: #B45309; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35); border-radius: var(--radius-md);"
+                onclick="addQuickParchaToSlip()">
+                ⚡ जोड़ियां पर्चे में जोड़ें (+ Add Jodis)
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ==================== PARSED BET SLIP PANEL ==================== -->
+        <div class="bet-slip-panel" id="betSlipPanel">
+          <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h4
+              style="font-size: 1.2rem; color: #0F172A; font-weight: 900; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+              <span>🎟️</span> लाइव पर्चा स्लिप (<span id="slipItemsCount" style="color: var(--brand-teal);">0</span>
+              जोड़ियां/हरूफ)
+            </h4>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary btn-sm" onclick="copyTelegramParchaSlip()"
+                style="font-weight: 800; display: flex; align-items: center; gap: 0.3rem;">
+                📋 Copy WhatsApp Slip
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="clearBetSlip()" style="font-weight: 800;">
+                🗑️ Clear All
+              </button>
+            </div>
+          </div>
+
+          <div
+            style="max-height: 260px; overflow-y: auto; margin-bottom: 1rem; border: 1.5px solid #CBD5E1; border-radius: var(--radius-md); background: #FFFFFF;">
+            <table class="slip-items-table">
+              <thead>
+                <tr>
+                  <th>मार्केट</th>
+                  <th>प्रकार (Type)</th>
+                  <th>नंबर (Jodi/Haruf)</th>
+                  <th>रकम (₹)</th>
+                  <th>जीतने पर (Win)</th>
+                  <th>हटाएं</th>
+                </tr>
+              </thead>
+              <tbody id="slipItemsBody">
+                <tr>
+                  <td colspan="6"
+                    style="text-align: center; color: var(--text-muted); padding: 2rem; font-weight: 700;">
+                    पर्चे में अभी कोई जोड़ी नहीं है। ऊपर दिए गए WhatsApp बॉक्स में पर्चा पेस्ट करें या जोड़ी डालकर लोड
+                    करें!
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="slip-summary-bar">
+            <div>
+              <div class="slip-total-stat">
+                कुल रकम (Total Investment): <span id="slipTotalAmount"
+                  style="color: #0F172A; font-weight: 900; font-family: var(--font-mono);">₹0</span>
+              </div>
+              <div style="font-size: 0.85rem; color: #475569; margin-top: 3px; font-weight: 700;">
+                उपलब्ध बैलेंस (Wallet Balance): <span id="slipUserBalance"
+                  style="color: #059669; font-weight: 800; font-family: var(--font-mono);">₹0</span>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="btnSubmitBet"
+              style="font-size: 1.05rem; padding: 0.8rem 2.2rem; font-weight: 900; letter-spacing: 0.3px;"
+              onclick="submitBetSlip()">
+              ⚡ Confirm & Place Parcha (पर्चा सबमिट करें)
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: MY BETS ==================== -->
+    <section id="viewBets" class="tab-view" style="display: none;">
+      <div class="section-header">
+        <h3><span>📋</span> My Bet History</h3>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <select id="filterBetStatus" class="form-control" style="width: auto;" onchange="loadMyBets()">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+          <button class="btn btn-secondary btn-sm" onclick="loadMyBets()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="custom-table-wrapper">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Market</th>
+              <th>Bet Type</th>
+              <th>Number</th>
+              <th>Points</th>
+              <th>Rate</th>
+              <th>Status</th>
+              <th>Won Amount</th>
+              <th>Placed At</th>
+            </tr>
+          </thead>
+          <tbody id="myBetsTableBody">
+            <tr>
+              <td colspan="9" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                Loading your bets...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: RESULTS CHART ==================== -->
+    <section id="viewChart" class="tab-view" style="display: none;">
+      <div class="section-header">
+        <h3><span>📊</span> Monthly Combined Results Chart</h3>
+        <button class="btn btn-secondary btn-sm" onclick="loadResultsChart()">🔄 Refresh Chart</button>
+      </div>
+
+      <div class="custom-table-wrapper">
+        <div class="table-teal-banner">
+          September 2026 Satta King Monthly Combined Chart – Gali, Desawar, Ghaziabad & Faridabad
+        </div>
+        <table class="custom-table" id="chartTable">
+          <thead class="head-mustard-gold">
+            <tr>
+              <th style="width: 80px;">Date</th>
+              <th>DS</th>
+              <th>DB</th>
+              <th>SG</th>
+              <th>FB</th>
+              <th>GB</th>
+              <th>GL</th>
+            </tr>
+          </thead>
+          <tbody id="chartTableBody">
+            <tr>
+              <td colspan="7" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                Loading historical chart...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: WALLET & PASSBOOK ==================== -->
+    <section id="viewWallet" class="tab-view" style="display: none;">
+      <div class="section-header">
+        <h3><span>💳</span> Wallet & Passbook Ledger</h3>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-success" onclick="openAddFundsModal()">+ Add Funds</button>
+          <button class="btn btn-primary" onclick="openWithdrawModal()" style="font-weight: 800;">⚡ Instant
+            Withdraw</button>
+        </div>
+      </div>
+
+      <!-- Balance Card -->
+      <div
+        style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: var(--radius-lg); padding: 1.6rem 2rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; box-shadow: var(--shadow-card);">
+        <div>
+          <div
+            style="font-size: 0.8rem; color: #D97706; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 800;">
+            CURRENT AVAILABLE BALANCE</div>
+          <div
+            style="font-family: var(--font-mono); font-size: 2.6rem; font-weight: 900; color: #111827; margin-top: 0.2rem; letter-spacing: -0.5px;"
+            id="walletPageBalance">₹0</div>
+          <div
+            style="font-size: 0.82rem; color: #059669; font-weight: 700; margin-top: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
+            <span class="pulse-dot"></span> Realtime Automated UPI Ledger Active
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button class="btn btn-primary" onclick="quickAddDemoFunds(5000)"
+            style="font-weight: 800; padding: 0.75rem 1.4rem;">
+            + Quick Add ₹5,000 Demo
+          </button>
+          <button class="btn btn-success" onclick="openWithdrawModal()"
+            style="font-weight: 800; padding: 0.75rem 1.4rem;">
+            ⚡ Instant UPI Withdrawal
+          </button>
+        </div>
+      </div>
+
+      <!-- Withdrawal Requests Status -->
+      <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <h4 style="color: #F8FAFC; font-size: 1.15rem; font-weight: 800; margin: 0;">Recent Withdrawal Requests</h4>
+          <button class="btn btn-secondary btn-sm" onclick="loadUserWithdrawals()">🔄 Refresh Payouts</button>
+        </div>
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Request ID</th>
+                <th>Requested At</th>
+                <th>Amount</th>
+                <th>Method</th>
+                <th>Details</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="walletWdTableBody">
+              <tr>
+                <td colspan="6" style="text-align: center; color: var(--text-secondary); padding: 1.5rem;">
+                  No withdrawal requests yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Ledger Transactions -->
+      <h4 style="margin-bottom: 0.75rem; color: #F8FAFC; font-weight: 800; font-size: 1.15rem;">Transaction History</h4>
+      <div class="custom-table-wrapper">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Date & Time</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Balance After</th>
+            </tr>
+          </thead>
+          <tbody id="walletTxTableBody">
+            <tr>
+              <td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                No transactions yet.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <!-- Mobile Bottom Nav (Snapchat Floating Dock) -->
+  <div class="bottom-nav">
+    <button class="bottom-nav-item active" id="bNavMarkets" onclick="switchTab('markets')">
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+      <span>Markets</span>
+    </button>
+    <button class="bottom-nav-item center-snap-btn" id="bNavPlay" onclick="switchTab('play')">
+      <div class="snap-btn-orb">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" />
+        </svg>
+      </div>
+      <span>Play</span>
+    </button>
+    <button class="bottom-nav-item" id="bNavBets" onclick="switchTab('bets')">
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+      </svg>
+      <span>My Bets</span>
+    </button>
+    <button class="bottom-nav-item" id="bNavChart" onclick="switchTab('chart')">
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z" />
+      </svg>
+      <span>Chart</span>
+    </button>
+    <button class="bottom-nav-item" id="bNavWallet" onclick="switchTab('wallet')">
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+      </svg>
+      <span>Wallet</span>
+    </button>
+  </div>
+
+  <!-- ==================== AUTH MODALS ==================== -->
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Login to Play</h3>
+        <button class="close-btn" onclick="closeModals()">&times;</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Username or Phone Number</label>
+          <input type="text" id="loginUserOrPhone" class="form-control" placeholder="e.g. player1 or 9876543210"
+            required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Login Now</button>
+      </form>
+      <!-- 1-Click Demo Player Login Banner -->
+      <div style="margin-top: 1.1rem; padding: 0.85rem; background: #F0FDF4; border: 1.5px dashed #22C55E; border-radius: var(--radius-md); text-align: center;">
+        <div style="font-size: 0.78rem; font-weight: 800; color: #166534; margin-bottom: 0.35rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem;">
+          <span>⚡</span> Live Demo Player Credentials
+        </div>
+        <div style="font-size: 0.75rem; color: #334155; margin-bottom: 0.6rem; font-family: var(--font-mono);">
+          Username: <strong>demo_user</strong> • Password: <strong>demo123</strong>
+        </div>
+        <button type="button" class="btn btn-sm" onclick="quickDemoUserLogin('demo_user', 'demo123')"
+          style="width: 100%; background: #166534; color: #FFFFFF; font-weight: 800; font-size: 0.82rem; padding: 0.45rem; border-radius: 6px; box-shadow: 0 2px 8px rgba(22, 101, 52, 0.25);">
+          🚀 1-Click Instant Demo Login (₹25,000 Balance)
+        </button>
+      </div>
+
+      <div style="margin-top: 0.85rem; text-align: center; font-size: 0.82rem; color: var(--text-secondary);">
+        New user? <a href="javascript:void(0)" onclick="openRegisterModal()"
+          style="color: var(--brand-teal); font-weight: 800; text-decoration: underline;">Create New Account</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal-overlay" id="registerModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Register New Account</h3>
+        <button class="close-btn" onclick="closeModals()">&times;</button>
+      </div>
+      <div
+        style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--neon-green); border-radius: 6px; padding: 0.5rem 0.75rem; margin-bottom: 1rem; font-size: 0.8rem; color: var(--neon-green);">
+        🎁 Get ₹5,000 Welcome Bonus instantly on registration!
+      </div>
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>Choose Username</label>
+          <input type="text" id="regUsername" class="form-control" placeholder="e.g. royal_winner" minlength="3"
+            required>
+        </div>
+        <div class="form-group">
+          <label>Mobile Phone Number</label>
+          <input type="tel" id="regPhone" class="form-control" placeholder="10-digit mobile number" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="regPassword" class="form-control" placeholder="Minimum 4 characters" minlength="4"
+            required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Create Account & Claim
+          ₹5,000</button>
+      </form>
+      <div style="margin-top: 1rem; text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Already have an account? <a href="javascript:void(0)" onclick="openLoginModal()"
+          style="color: var(--gold-text); font-weight: 600;">Login here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Funds Modal -->
+  <div class="modal-overlay" id="addFundsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Add Play Points / Funds</h3>
+        <button class="close-btn" onclick="closeModals()">&times;</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        Add demo points instantly to test bets on all markets.
+      </p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+        <button class="btn btn-secondary" onclick="quickAddDemoFunds(2000)">+ ₹2,000</button>
+        <button class="btn btn-secondary" onclick="quickAddDemoFunds(5000)">+ ₹5,000</button>
+        <button class="btn btn-secondary" onclick="quickAddDemoFunds(10000)">+ ₹10,000</button>
+        <button class="btn btn-secondary" onclick="quickAddDemoFunds(25000)">+ ₹25,000</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instant Withdraw Modal -->
+  <div class="modal-overlay" id="withdrawModal">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3>⚡ Instant Wallet Withdrawal</h3>
+        <button class="close-btn" onclick="closeModals()">&times;</button>
+      </div>
+
+      <div
+        style="background: rgba(245, 158, 11, 0.1); border: 1px solid var(--gold-text); border-radius: 6px; padding: 0.6rem 0.85rem; margin-bottom: 1rem; font-size: 0.82rem; color: #f59e0b; display: flex; align-items: center; gap: 0.5rem;">
+        <span>🔒</span>
+        <span>Balance is debited immediately to reserve your payout securely.</span>
+      </div>
+
+      <form id="withdrawForm" onsubmit="handleWithdrawSubmit(event)">
+        <!-- Quick Select Chips -->
+        <div class="form-group">
+          <label>Withdrawal Amount (₹)</label>
+          <input type="number" id="withdrawAmountInput" class="form-control" placeholder="Min ₹100, Max ₹1,00,000"
+            min="100" max="100000" required
+            style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: var(--gold-text);">
+          <div style="display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="setWithdrawAmount(500)">₹500</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="setWithdrawAmount(1000)">₹1,000</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="setWithdrawAmount(2000)">₹2,000</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="setWithdrawAmount(5000)">₹5,000</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="setWithdrawMax()">Max All</button>
+          </div>
+        </div>
+
+        <!-- Payment Method Tabs -->
+        <div class="form-group">
+          <label>Transfer Method</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem;">
+            <button type="button" id="wdMethodUpiBtn" class="btn btn-primary" onclick="switchWithdrawMethod('upi')">⚡
+              UPI (Instant)</button>
+            <button type="button" id="wdMethodBankBtn" class="btn btn-secondary"
+              onclick="switchWithdrawMethod('bank')">🏦 Bank IMPS</button>
+          </div>
+        </div>
+
+        <!-- UPI Fields -->
+        <div id="wdUpiFields">
+          <div class="form-group">
+            <label>UPI ID (VPA)</label>
+            <input type="text" id="wdUpiId" class="form-control" placeholder="e.g. 9876543210@paytm or name@oksbi">
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
+              Supports GPay, PhonePe, Paytm, BHIM, and all UPI apps.
+            </div>
+          </div>
+        </div>
+
+        <!-- Bank Fields -->
+        <div id="wdBankFields" style="display: none;">
+          <div class="form-group">
+            <label>Account Holder Name</label>
+            <input type="text" id="wdAccountHolder" class="form-control" placeholder="Name as per Bank Passbook">
+          </div>
+          <div class="form-group">
+            <label>Bank Account Number</label>
+            <input type="text" id="wdBankAccount" class="form-control" placeholder="Enter bank account number">
+          </div>
+          <div class="form-group">
+            <label>IFSC Code</label>
+            <input type="text" id="wdIfsc" class="form-control" placeholder="e.g. SBIN0001234"
+              style="text-transform: uppercase;">
+          </div>
+        </div>
+
+        <button type="submit" id="btnWithdrawSubmit" class="btn btn-primary"
+          style="width: 100%; margin-top: 0.75rem; font-size: 1.05rem; padding: 0.75rem; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-color: #f59e0b;">
+          ⚡ Confirm & Withdraw Now
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+
+</html>
