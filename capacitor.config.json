@@ -1,0 +1,10 @@
+{
+  "appId": "com.royalsatta.app",
+  "appName": "Royal Satta Live",
+  "webDir": "public",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  }
+}

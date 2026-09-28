@@ -1,0 +1,27 @@
+{
+  "name": "ROYAL SATTA LIVE",
+  "short_name": "RoyalSatta",
+  "description": "Official Royal Satta Live Fast Result & Betting Platform",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#051A3A",
+  "theme_color": "#1E8276",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "games"]
+}
