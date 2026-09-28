@@ -2237,18 +2237,45 @@ function renderMyBetsTable(bets) {
 }
 
 // ======================== RESULTS CHART ========================
+let cachedChartResults = [];
+let activeChartFilter = 'ALL';
+
 async function loadResultsChart() {
   try {
     const res = await fetch('/api/results/chart');
     const data = await res.json();
-    renderResultsChartTable(data.results);
+    cachedChartResults = data.results || [];
+    renderResultsChartTable(cachedChartResults, activeChartFilter);
   } catch (err) {
     console.error('Failed to load results chart:', err);
   }
 }
 
-function renderResultsChartTable(results) {
+function filterChartColumn(marketCode) {
+  activeChartFilter = marketCode;
+  // Update chip active classes
+  const chips = ['ALL', 'DS', 'FB', 'GB', 'GALI', 'DB', 'SG'];
+  chips.forEach(c => {
+    const btn = document.getElementById(`chartFilter${c}`);
+    if (btn) {
+      if (c === marketCode) {
+        btn.style.background = '#1E8276';
+        btn.style.color = '#FFFFFF';
+        btn.style.borderColor = '#115E59';
+      } else {
+        btn.style.background = '#F1F5F9';
+        btn.style.color = '#334155';
+        btn.style.borderColor = '#CBD5E1';
+      }
+    }
+  });
+
+  renderResultsChartTable(cachedChartResults, activeChartFilter);
+}
+
+function renderResultsChartTable(results, filter = 'ALL') {
   const tbody = document.getElementById('chartTableBody');
+  const thead = document.querySelector('#chartTable thead');
   if (!tbody) return;
 
   if (!results || results.length === 0) {
@@ -2260,6 +2287,36 @@ function renderResultsChartTable(results) {
       </tr>
     `;
     return;
+  }
+
+  // Update table header based on filter
+  if (filter === 'ALL') {
+    thead.innerHTML = `
+      <tr>
+        <th style="width: 13%;">Date</th>
+        <th>DS</th>
+        <th>DB</th>
+        <th>SG</th>
+        <th>FB</th>
+        <th>GB</th>
+        <th>GL</th>
+      </tr>
+    `;
+  } else {
+    const mNames = {
+      DS: 'Desawar (DS)',
+      FB: 'Faridabad (FB)',
+      GB: 'Ghaziabad (GB)',
+      GALI: 'Gali (GL)',
+      DB: 'Delhi Bazaar (DB)',
+      SG: 'Shri Ganesh (SG)'
+    };
+    thead.innerHTML = `
+      <tr>
+        <th style="width: 35%;">Date</th>
+        <th style="width: 65%;">${mNames[filter] || filter} Result</th>
+      </tr>
+    `;
   }
 
   // Group results by date
@@ -2279,15 +2336,23 @@ function renderResultsChartTable(results) {
     const m = byDate[d] || {};
     const dayNum = d.split('-')[2] ? parseInt(d.split('-')[2], 10) : d;
 
-    row.innerHTML = `
-      <td class="td-date-red">${dayNum}</td>
-      <td class="td-val-bold">${m.DS || '--'}</td>
-      <td class="td-val-bold">${m.DB || '--'}</td>
-      <td class="td-val-bold">${m.SG || '--'}</td>
-      <td class="td-val-bold">${m.FB || '--'}</td>
-      <td class="td-val-bold">${m.GB || '--'}</td>
-      <td class="td-val-bold">${m.GALI || m.GL || '--'}</td>
-    `;
+    if (filter === 'ALL') {
+      row.innerHTML = `
+        <td class="td-date-red">${dayNum}</td>
+        <td class="td-val-bold">${m.DS || '--'}</td>
+        <td class="td-val-bold">${m.DB || '--'}</td>
+        <td class="td-val-bold">${m.SG || '--'}</td>
+        <td class="td-val-bold">${m.FB || '--'}</td>
+        <td class="td-val-bold">${m.GB || '--'}</td>
+        <td class="td-val-bold">${m.GALI || m.GL || '--'}</td>
+      `;
+    } else {
+      const val = m[filter] || (filter === 'GALI' ? m.GL : null) || '--';
+      row.innerHTML = `
+        <td class="td-date-red" style="font-weight: 800; font-size: 1rem;">${d}</td>
+        <td class="td-val-bold" style="font-size: 1.5rem; color: #115E59; font-weight: 900;">${val}</td>
+      `;
+    }
     tbody.appendChild(row);
   });
 }

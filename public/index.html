@@ -556,8 +556,40 @@ crx 1234 jc into 10"></textarea>
     <!-- ==================== TAB 4: RESULTS CHART ==================== -->
     <section id="viewChart" class="tab-view" style="display: none;">
       <div class="section-header">
-        <h3><span>📊</span> Monthly Combined Results Chart</h3>
+        <h3><span>📊</span> Monthly Results Chart</h3>
         <button class="btn btn-secondary btn-sm" onclick="loadResultsChart()">🔄 Refresh Chart</button>
+      </div>
+
+      <!-- Market Quick-Filter Chips for Chart -->
+      <div style="display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.6rem; margin-bottom: 0.5rem; -webkit-overflow-scrolling: touch;">
+        <button class="btn btn-sm chart-filter-chip active" id="chartFilterALL" onclick="filterChartColumn('ALL')"
+          style="background: #1E8276; color: #FFFFFF; font-size: 0.78rem; font-weight: 800; border-radius: 9999px; padding: 0.3rem 0.75rem; white-space: nowrap;">
+          🌐 Combined Chart (All)
+        </button>
+        <button class="btn btn-sm chart-filter-chip" id="chartFilterDS" onclick="filterChartColumn('DS')"
+          style="background: #F1F5F9; color: #334155; border: 1.5px solid #CBD5E1; font-size: 0.78rem; font-weight: 800; border-radius: 9999px; padding: 0.3rem 0.75rem; white-space: nowrap;">
+          DS (Desawar)
+        </button>
+        <button class="btn btn-sm chart-filter-chip" id="chartFilterFB" onclick="filterChartColumn('FB')"
+          style="background: #F1F5F9; color: #334155; border: 1.5px solid #CBD5E1; font-size: 0.78rem; font-weight: 800; border-radius: 9999px; padding: 0.3rem 0.75rem; white-space: nowrap;">
+          FB (Faridabad)
+        </button>
+        <button class="btn btn-sm chart-filter-chip" id="chartFilterGB" onclick="filterChartColumn('GB')"
+          style="background: #F1F5F9; color: #334155; border: 1.5px solid #CBD5E1; font-size: 0.78rem; font-weight: 800; border-radius: 9999px; padding: 0.3rem 0.75rem; white-space: nowrap;">
+          GB (Ghaziabad)
+        </button>
+        <button class="btn btn-sm chart-filter-chip" id="chartFilterGALI" onclick="filterChartColumn('GALI')"
+          style="background: #F1F5F9; color: #334155; border: 1.5px solid #CBD5E1; font-size: 0.78rem; font-weight: 800; border-radius: 9999px; padding: 0.3rem 0.75rem; white-space: nowrap;">
+          GALI (Gali)
+        </button>
+        <button class="btn btn-sm chart-filter-chip" id="chartFilterDB" onclick="filterChartColumn('DB')"
+          style="background: #F1F5F9; color: #334155; border: 1.5px solid #CBD5E1; font-size: 0.78rem; font-weight: 800; border-radius: 9999px; padding: 0.3rem 0.75rem; white-space: nowrap;">
+          DB (Delhi)
+        </button>
+        <button class="btn btn-sm chart-filter-chip" id="chartFilterSG" onclick="filterChartColumn('SG')"
+          style="background: #F1F5F9; color: #334155; border: 1.5px solid #CBD5E1; font-size: 0.78rem; font-weight: 800; border-radius: 9999px; padding: 0.3rem 0.75rem; white-space: nowrap;">
+          SG (Ganesh)
+        </button>
       </div>
 
       <div class="custom-table-wrapper">
